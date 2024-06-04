@@ -57,7 +57,7 @@ cfl_iocpclt::cfl_iocpclt(int maxconn) try : skpool(maxconn), iopool(100), ctxlis
 	// init IOCP
 	_hIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 	if (NULL == _hIOCP)
-		throw bad_exception("Failed to create I/O completion port");
+		throw runtime_error("Failed to create I/O completion port");
 
 	// create manager thread and walker thread pool
 	DWORD dwThreadId;
@@ -70,7 +70,7 @@ cfl_iocpclt::cfl_iocpclt(int maxconn) try : skpool(maxconn), iopool(100), ctxlis
 		thread_handles[i] = handle;
 	}
 } catch (bad_alloc&) {
-	throw bad_exception("new operation failed");
+	throw runtime_error("new operation failed");
 } catch (...) {
 	cfl_printf("Unknown Exception raised from cfl_iocp()\n");
 };
@@ -231,8 +231,10 @@ DWORD WINAPI cfl_iocpclt::wrk_thrd(LPVOID wrk_thrd_ctx) {
 	DWORD* ptr = NULL;
 
 	while (true) {
+		ULONG_PTR completionKey;
+		sk_ctx = reinterpret_cast<PER_SOCKET_CONTEXT*>(completionKey);
 		// continually loop to service io completion packets
-		ret = GetQueuedCompletionStatus(that->_hIOCP, &io_size, (LPDWORD)&sk_ctx,
+		ret = GetQueuedCompletionStatus(that->_hIOCP, &io_size, &completionKey,
 										&overlapped, INFINITE);
 		if (!ret)
 			cfl_printf("Failed to GetQueuedCompletionStatus: %d\n", GetLastError());
