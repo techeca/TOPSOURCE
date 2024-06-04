@@ -2,6 +2,7 @@
 
 #ifndef INCLUDE_PI_ALLOC
 #define INCLUDE_PI_ALLOC
+#include <string>
 
 #ifndef _INC_STDDEF
 #include <stddef.h> // declares size_t
@@ -92,7 +93,7 @@ public:
 
 	typedef list<pi_LeakItem> pi_LeakList;
 	pi_LeakList pi_leakList;
-	string pi_fileName;
+	std::string pi_fileName;
 
 	void addItem(void* addr, const char* fileName, int lineNo, size_t size);
 	void removeItem(void* addr);
