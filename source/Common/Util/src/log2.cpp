@@ -2,6 +2,8 @@
 #include "log2.h"
 #include "util2.h"
 
+#include <stdexcept>
+
 CLog2::CLog2() : _fp(NULL), _fpLock(), _strName(""), _strExt("") {
 	_bEnable = true;
 	_nType = 0;
