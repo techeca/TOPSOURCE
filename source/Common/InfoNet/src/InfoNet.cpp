@@ -315,7 +315,7 @@ unsigned InfoThread::Run() {
 		//ret = select(0, &fdread, 0, 0, 0);    //  阻塞select
 
 		if (SOCKET_ERROR == ret) {
-			LG("InfoNet", "select model error..."__LN);
+			LG("InfoNet", "select model error..." __LN);
 			Sleep(1);
 			continue;
 		}
@@ -325,7 +325,7 @@ unsigned InfoThread::Run() {
 		if (ret > 0) {
 			if (FD_ISSET(cli->sock, &fdread)) {
 				if (!inb->PostInfoRecv()) {
-					LG("InfoNet", "Recv Failt..."__LN);
+					LG("InfoNet", "Recv Failt..." __LN);
 					inb->Disconnect();
 					Sleep(1);
 					continue;
@@ -338,9 +338,9 @@ unsigned InfoThread::Run() {
 		if ((clock() - chkTime) > 300000) //  5分钟检测一次
 		{
 			chkTime = clock();
-			LG("InfoNet", "Ping: Timestamp: %li..."__LN, time(0));
+			LG("InfoNet", "Ping: Timestamp: %li..." __LN, time(0));
 			if (!inb->PostInfoSend(INFO_CHECK_LIVE, 0, 0, 0, 0, 0)) {
-				LG("InfoNet", "Ping: Lost Connection..."__LN);
+				LG("InfoNet", "Ping: Lost Connection..." __LN);
 				inb->Disconnect();
 				Sleep(1);
 				continue;
@@ -356,7 +356,7 @@ unsigned InfoThread::Run() {
 			}
 			pNM = sndLst->Top();
 			if (!inb->PostInfoSend(pNM, false)) {
-				LG("InfoNet", "Resend Failt..."__LN);
+				LG("InfoNet", "Resend Failt..." __LN);
 				inb->Disconnect();
 				Sleep(1);
 				break;
@@ -386,17 +386,17 @@ InfoNetBase::~InfoNetBase() {
 }
 
 bool InfoNetBase::RunInfoService(const char* ip, short port) {
-	LG("InfoNet", "Begin Run Info Service..."__LN);
+	LG("InfoNet", "Begin Run Info Service..." __LN);
 	if ((INFO_RESTING == m_state) || (INFO_WORKING == m_state)) {
-		LG("InfoNet", "Already Has Ran Info Service..."__LN);
+		LG("InfoNet", "Already Has Ran Info Service..." __LN);
 		return true;
 	}
 	if (!m_list) {
-		LG("InfoNet", "Create Send Queue..."__LN);
+		LG("InfoNet", "Create Send Queue..." __LN);
 		m_list = new NetSndList;
 	}
 	if (!m_client) {
-		LG("InfoNet", "Create Connect Object..."__LN);
+		LG("InfoNet", "Create Connect Object..." __LN);
 		m_client = new InfoClient;
 		pInfoClient __cli = (pInfoClient)m_client;
 		memset(__cli->buff, 0, 8192);
@@ -408,19 +408,19 @@ bool InfoNetBase::RunInfoService(const char* ip, short port) {
 	m_port = port;
 	((pInfoClient)m_client)->thread.m_param = this;
 	((pInfoClient)m_client)->thread.Begin();
-	LG("InfoNet", "End Run Info Service..."__LN);
+	LG("InfoNet", "End Run Info Service..." __LN);
 	return true;
 }
 
 bool InfoNetBase::StopInfoService() {
-	LG("InfoNet", "Begin Stop Info Service..."__LN);
+	LG("InfoNet", "Begin Stop Info Service..." __LN);
 	if ((INFO_INIT == m_state) || (INFO_STOPPED == m_state)) {
-		LG("InfoNet", "Already Stopped Info Service..."__LN);
+		LG("InfoNet", "Already Stopped Info Service..." __LN);
 		return true;
 	}
 	m_state = INFO_STOPPED;
 	if (!m_client) {
-		LG("InfoNet", "Missing Connect Object..."__LN);
+		LG("InfoNet", "Missing Connect Object..." __LN);
 		return false;
 	}
 	pInfoClient __cli = (pInfoClient)m_client;
@@ -437,7 +437,7 @@ bool InfoNetBase::StopInfoService() {
 	SAFE_DELETE(m_list);
 	//    break;
 	//}
-	LG("InfoNet", "End Stopped Info Service..."__LN);
+	LG("InfoNet", "End Stopped Info Service..." __LN);
 	return true;
 }
 
@@ -453,7 +453,7 @@ bool InfoNetBase::PostInfoSend(long msgID, long subID, long extend, long section
 }
 
 bool InfoNetBase::PostInfoSend(pNetMessage msg, bool resnd /* = true*/) {
-	LG("InfoNet", "Begin Send..."__LN);
+	LG("InfoNet", "Begin Send..." __LN);
 	pInfoClient __cli = (pInfoClient)m_client;
 	__BEGIN_TRY
 	if (!msg) {
@@ -473,10 +473,10 @@ bool InfoNetBase::PostInfoSend(pNetMessage msg, bool resnd /* = true*/) {
 	bool ret = true;
 
 	if (SOCKET_ERROR == send(__cli->sock, buf, size, 0)) {
-		LG("InfoNet", "Send Failed, Socket: %li, ErrorID: %li"__LN, __cli->sock, WSAGetLastError());
+		LG("InfoNet", "Send Failed, Socket: %li, ErrorID: %li" __LN, __cli->sock, WSAGetLastError());
 		Disconnect();
 		if (resnd) {
-			LG("InfoNet", "Ready For Resend..."__LN);
+			LG("InfoNet", "Ready For Resend..." __LN);
 			pNetMessage newNM = new NetMessage; //  新建一份copy放入发送队列，等待重发
 			memcpy(&newNM->msgHead, &msg->msgHead, sizeof(NetMessageHead));
 			if (msg->msgHead.msgEncSize) {
@@ -490,7 +490,7 @@ bool InfoNetBase::PostInfoSend(pNetMessage msg, bool resnd /* = true*/) {
 		ret = false;
 	}
 	SAFE_DELETE_ARRAY(buf);
-	LG("InfoNet", "End Send..."__LN);
+	LG("InfoNet", "End Send..." __LN);
 	return ret;
 	__END_TRY
 	return false;
@@ -504,7 +504,7 @@ bool InfoNetBase::IsConnect() {
 }
 
 bool InfoNetBase::Connect() {
-	LG("InfoNet", "Begin Connect Trade Server, IP: %s, Port: %i..."__LN, m_ip, m_port);
+	LG("InfoNet", "Begin Connect Trade Server, IP: %s, Port: %i..." __LN, m_ip, m_port);
 	__BEGIN_TRY
 	pInfoClient __cli = (pInfoClient)m_client;
 
@@ -529,10 +529,10 @@ bool InfoNetBase::Connect() {
 
 	bool ret = (0 == connect(__cli->sock, (struct sockaddr*)&addr, sizeof(addr)));
 
-	LG("InfoNet", "Call Back 'OnConnect' With '%s'..."__LN, (true == ret) ? "True" : "False");
+	LG("InfoNet", "Call Back 'OnConnect' With '%s'..." __LN, (true == ret) ? "True" : "False");
 	OnConnect(ret);
 	if (!ret) {
-		LG("InfoNet", "Connect Trade Server Failt..."__LN);
+		LG("InfoNet", "Connect Trade Server Failt..." __LN);
 		Disconnect();
 	}
 	//else
@@ -540,14 +540,14 @@ bool InfoNetBase::Connect() {
 	//    u_long __noblock = 1;
 	//    ioctlsocket(__cli->sock, FIONBIO, &__noblock);
 	//}
-	LG("InfoNet", "End Connect Trade Server..."__LN);
+	LG("InfoNet", "End Connect Trade Server..." __LN);
 	return ret;
 	__END_TRY
 	return false;
 }
 
 bool InfoNetBase::Disconnect() {
-	LG("InfoNet", "Begin Disconnect Trade Server..."__LN);
+	LG("InfoNet", "Begin Disconnect Trade Server..." __LN);
 	__BEGIN_TRY
 	if (!IsConnect()) {
 		return true;
@@ -555,16 +555,16 @@ bool InfoNetBase::Disconnect() {
 	pInfoClient __cli = (pInfoClient)m_client;
 	bool ret = (0 == closesocket(__cli->sock));
 	__cli->sock = INVALID_SOCKET;
-	LG("InfoNet", "Call Back 'OnDisconnect'..."__LN);
+	LG("InfoNet", "Call Back 'OnDisconnect'..." __LN);
 	OnDisconnect();
-	LG("InfoNet", "End Disconnect Trade Server..."__LN);
+	LG("InfoNet", "End Disconnect Trade Server..." __LN);
 	return ret;
 	__END_TRY
 	return false;
 }
 
 bool InfoNetBase::PostInfoRecv() {
-	LG("InfoNet", "Begin Receive..."__LN);
+	LG("InfoNet", "Begin Receive..." __LN);
 	pInfoClient __cli = (pInfoClient)m_client;
 	__BEGIN_TRY
 	memset(__cli->buff, 0, 8192);
@@ -575,7 +575,7 @@ bool InfoNetBase::PostInfoRecv() {
 			Sleep(1);
 			return true;
 		}
-		LG("InfoNet", "Recv Failed, Socket: %li, ErrorID: %li"__LN, __cli->sock, WSAGetLastError());
+		LG("InfoNet", "Recv Failed, Socket: %li, ErrorID: %li" __LN, __cli->sock, WSAGetLastError());
 		Disconnect();
 		return false;
 	}
@@ -596,7 +596,7 @@ bool InfoNetBase::PostInfoRecv() {
 			break;
 		} else if (PNM_UNKNOWN == ret) //  解析消息头失败
 		{
-			LG("InfoNet", "Bad Packet Head..."__LN);
+			LG("InfoNet", "Bad Packet Head..." __LN);
 			if (__cli->tmpbuf) {
 				SAFE_DELETE(__cli->tmpbuf);
 				__cli->tmpsize = 0;
@@ -604,7 +604,7 @@ bool InfoNetBase::PostInfoRecv() {
 			break;
 		} else if (PNM_EXCEPTION == ret) //  异常（多数情况是因空指针引起）
 		{
-			LG("InfoNet", "Bad Packet..."__LN);
+			LG("InfoNet", "Bad Packet..." __LN);
 			if (__cli->tmpbuf) {
 				SAFE_DELETE(__cli->tmpbuf);
 				__cli->tmpsize = 0;
@@ -612,7 +612,7 @@ bool InfoNetBase::PostInfoRecv() {
 			break;
 		} else //  未知情况
 		{
-			LG("InfoNet", "Unknown Packet..."__LN);
+			LG("InfoNet", "Unknown Packet..." __LN);
 			if (__cli->tmpbuf) {
 				SAFE_DELETE(__cli->tmpbuf);
 				__cli->tmpsize = 0;
@@ -620,7 +620,7 @@ bool InfoNetBase::PostInfoRecv() {
 			break;
 		}
 	}
-	LG("InfoNet", "End Receive..."__LN);
+	LG("InfoNet", "End Receive..." __LN);
 	return true;
 	__END_TRY
 	return false;
