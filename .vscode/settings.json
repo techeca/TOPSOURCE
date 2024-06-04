@@ -41,6 +41,22 @@
         "fstream": "cpp",
         "iostream": "cpp",
         "queue": "cpp",
-        "set": "cpp"
-    }
+        "set": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "cstdarg": "cpp",
+        "ctime": "cpp",
+        "iomanip": "cpp",
+        "limits": "cpp",
+        "locale": "cpp",
+        "sstream": "cpp",
+        "stack": "cpp",
+        "strstream": "cpp",
+        "xlocmes": "cpp",
+        "xlocmon": "cpp",
+        "xloctime": "cpp",
+        "winapifamily.h": "c",
+        "xhash": "cpp"
+    },
+    "C_Cpp.default.compilerPath": "cl.exe"
 }

@@ -22,7 +22,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -50,7 +50,7 @@
     <OutDir>$(ProjectDir)..\..\..\..\server\</OutDir>
     <LinkIncremental>false</LinkIncremental>
     <IntDir>tmp\$(Configuration)\</IntDir>
-    <IncludePath>E:\Database\TOPSOURCE\source\Common\CaLua\include;E:\Database\TOPSOURCE\source\Common\Common\include;E:\Database\TOPSOURCE\source\Common;E:\Database\TOPSOURCE\source\Common\Server\sdk\lib;$(IncludePath)</IncludePath>
+    <IncludePath>E:\Database\source\dev\corsairs-online-public\source\Common\CaLua\include;E:\Database\source\dev\corsairs-online-public\source\Common\Common\include;E:\Database\source\dev\corsairs-online-public\source\Common;E:\Database\source\dev\corsairs-online-public\source\Common\Server\sdk\lib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -87,7 +87,7 @@
       <AdditionalOptions>/EHa %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
       <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\..\..\Common\Common\include;$(ProjectDir)..\..\..\Common\Util\include;$(ProjectDir)..\..\..\Common\Server\sdk\include;$(ProjectDir)..\..\..\Common\Ipss\include;$(ProjectDir)..\..\..\Common\ICUHelper\inc;$(ProjectDir)..\..\..\Common\icu\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;NOAUTHDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;NOAUTHDLL;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ExceptionHandling />
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -145,6 +145,18 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\ICUHelper\proj\ICUHelper.vcxproj">
+      <Project>{3a1c94cd-ccba-4f62-9af1-919b10c582e3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Server\sdk\Proj\LIBDBC.vcxproj">
+      <Project>{c9b950bb-f1b8-4274-b077-e07b16a16f1b}</Project>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Util\src\logutil.vcxproj">
+      <Project>{8c999608-91a8-4a85-bcd8-975b65eec5f4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

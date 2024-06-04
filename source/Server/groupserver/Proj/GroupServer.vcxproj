@@ -14,6 +14,7 @@
     <ProjectGuid>{560A2170-006B-44B8-970D-718E84CAF750}</ProjectGuid>
     <RootNamespace>GroupServer</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -49,6 +50,7 @@
     <OutDir>$(ProjectDir)..\..\..\..\server\</OutDir>
     <IntDir>tmp\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>E:\Database\source\dev\corsairs-online-public\source\Common\ICUHelper\lib;E:\Database\source\dev\corsairs-online-public\source\Common\LuaJIT\src;E:\Database\source\dev\corsairs-online-public\source\Common;E:\Database\source\dev\corsairs-online-public\source\Common\Common\include;E:\Database\source\dev\corsairs-online-public\source\Common\CaLua\include;E:\Database\source\dev\corsairs-online-public\source\Common\Server\sdk\lib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,8 +91,8 @@
       <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>lua51.lib;Ws2_32.lib;LIBDBC.lib;logutil.lib;WinMM.lib;Common.lib;ICUHelper.lib;icudt.lib;icuuc.lib;icuin.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\Common\Server\sdk\lib;$(ProjectDir)..\..\..\Common\Util\lib;$(ProjectDir)..\..\..\Common\Common\lib;$(ProjectDir)..\..\..\Common\CaLua\lib;$(ProjectDir)..\..\..\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\icu\lib;$(ProjectDir)..\..\..\Common\Common\lib;$(ProjectDir)..\..\..\Common\CaLua\lib;$(ProjectDir)..\..\..\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\luajit\src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua51.lib;Ws2_32.lib;LIBDBC.lib;logutil.lib;WinMM.lib;Common.lib;ICUHelper.lib;icudt.lib;icuuc.lib;icuin.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\Database\source\dev\corsairs-online-public\source\Common\CaLua\include;E:\Database\source\dev\corsairs-online-public\source\Common\Server\sdk\lib;E:\Database\source\dev\corsairs-online-public\source\Common\LuaJIT\src;E:\Database\source\dev\corsairs-online-public\source\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\Server\sdk\lib;$(ProjectDir)..\..\..\Common\Util\lib;$(ProjectDir)..\..\..\Common\Common\lib;$(ProjectDir)..\..\..\Common\CaLua\lib;$(ProjectDir)..\..\..\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\icu\lib;$(ProjectDir)..\..\..\Common\luajit\src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -147,6 +149,30 @@
     <ClInclude Include="..\src\Team.h" />
     <ClInclude Include="..\src\TeamMember.h" />
     <ClInclude Include="..\src\GuildBankMsg.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Proj\Common.vcxproj">
+      <Project>{58b6753c-75da-449a-97f9-3b26da4b6fb5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\EncLib\proj\EncLib.vcxproj">
+      <Project>{c8ff6997-b107-46e6-88e1-f804dabd9f77}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\ICUHelper\proj\ICUHelper.vcxproj">
+      <Project>{3a1c94cd-ccba-4f62-9af1-919b10c582e3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\InfoNet\proj\InfoNet.vcxproj">
+      <Project>{3aa5dea3-24ea-4b23-92e6-3d5905fa38c6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Server\sdk\Proj\LIBDBC.vcxproj">
+      <Project>{c9b950bb-f1b8-4274-b077-e07b16a16f1b}</Project>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Status\Proj\Status.vcxproj">
+      <Project>{1bda542a-fafb-4b7b-b7bd-3ad14bb78768}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Util\src\logutil.vcxproj">
+      <Project>{8c999608-91a8-4a85-bcd8-975b65eec5f4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
