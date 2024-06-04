@@ -241,6 +241,7 @@ void Player::EndPlayReset() {
 char Player::FindIndexByChaName(cChar* chaname) {
 	if (!chaname)
 		return -1;
+	char i = 0;
 	for (char i = 0; i < m_chanum; i++) {
 		if (m_chaname[i] == chaname)
 			break;
@@ -274,14 +275,14 @@ void Player::DoCommand(cChar* cmd) {
 		l_lockDB.unlock();
 		//SendSysInfo(dstring("上次登录IP:")<<m_lastip<<";上次断开连接的时间/原因:"<<m_lastleavetime<<"/"<<m_lastreason);
 		char l_buf[512];
-		sprintf(l_buf, RES_STRING(GP_PLAYER_CPP_00001), m_lastip, m_lastleavetime, m_lastreason);
+		sprintf_s(l_buf, RES_STRING(GP_PLAYER_CPP_00001), m_lastip, m_lastleavetime, m_lastreason);
 		SendSysInfo(l_buf);
 	} else if (!strncmp(cmd, "getuserconnection ", strlen("getuserconnection "))) {
 		Player* l_ply = g_gpsvr->FindPlayerByChaName(cmd + strlen("getuserconnection "));
 		if (!l_ply) {
 			//SendSysInfo(dstring("玩家【")<<cmd +strlen("getuserconnection ") <<"】当前不在线上");
 			char l_buf[512];
-			sprintf(l_buf, RES_STRING(GP_PLAYER_CPP_00002), cmd + strlen("getuserconnection "));
+			sprintf_s(l_buf, RES_STRING(GP_PLAYER_CPP_00002), cmd + strlen("getuserconnection "));
 			SendSysInfo(l_buf);
 		} else {
 			MutexArmor l_lockDB(g_gpsvr->m_mtxDB);
@@ -294,7 +295,7 @@ void Player::DoCommand(cChar* cmd) {
 			l_lockDB.unlock();
 			//SendSysInfo(dstring("【")<<cmd +strlen("getuserconnection ")<<"】上次登录IP:"<<l_ply->m_lastip<<";上次断开连接的时间/原因:"<<l_ply->m_lastleavetime<<"/"<<l_ply->m_lastreason);
 			char l_buf[512];
-			sprintf(l_buf, RES_STRING(GP_PLAYER_CPP_00003), cmd + strlen("getuserconnection "), l_ply->m_lastip, l_ply->m_lastleavetime, l_ply->m_lastreason);
+			sprintf_s(l_buf, RES_STRING(GP_PLAYER_CPP_00003), cmd + strlen("getuserconnection "), l_ply->m_lastip, l_ply->m_lastleavetime, l_ply->m_lastreason);
 			SendSysInfo(l_buf);
 		}
 	} else if (!strcmp(cmd, "getusernum+")) {
@@ -308,7 +309,7 @@ void Player::DoCommand(cChar* cmd) {
 				if (GetOnlineCount(dwLoginNum, dwPlayerNum)) {
 					//SendSysInfo(dstring("当前登录/游戏玩家数：")<<dwLoginNum<<"/"<<dwPlayerNum);
 					char l_buf[512];
-					sprintf(l_buf, RES_STRING(GP_PLAYER_CPP_00004), dwLoginNum, dwPlayerNum);
+					sprintf_s(l_buf, RES_STRING(GP_PLAYER_CPP_00004), dwLoginNum, dwPlayerNum);
 					SendSysInfo(l_buf);
 				}
 			}
@@ -318,7 +319,7 @@ void Player::DoCommand(cChar* cmd) {
 		if (!l_ply) {
 			//SendSysInfo(dstring("玩家【")<<cmd +strlen("ping ") <<"】当前不在线上");
 			char l_buf[512];
-			sprintf(l_buf, RES_STRING(GP_PLAYER_CPP_00005), cmd + strlen("ping "));
+			sprintf_s(l_buf, RES_STRING(GP_PLAYER_CPP_00005), cmd + strlen("ping "));
 			SendSysInfo(l_buf);
 		} else {
 			l_ply->m_pingply = this;
@@ -490,18 +491,18 @@ void Player::DelEstopPlayer(cChar* plyname) {
 	if (!g_gpsvr->m_tblcharaters->DelEstop(plyname)) {
 		char szData[128];
 		//sprintf( szData, "解除禁言角色《%s》不存在！", plyname );
-		sprintf(szData, RES_STRING(GP_PLAYER_CPP_00018), plyname);
+		sprintf_s(szData, RES_STRING(GP_PLAYER_CPP_00018), plyname);
 		SendSysInfo(szData);
 		return;
 	} else {
 		char szData[128];
 		//sprintf( szData, "解除角色《%s》禁言操作成功！", plyname );
-		sprintf(szData, RES_STRING(GP_PLAYER_CPP_00019), plyname);
+		sprintf_s(szData, RES_STRING(GP_PLAYER_CPP_00019), plyname);
 		SendSysInfo(szData);
 
 		char szTemp[128];
 		//sprintf( szTemp, "你已经被GM《%s》解除禁言！", m_chaname[m_currcha].c_str() );
-		sprintf(szTemp, RES_STRING(GP_PLAYER_CPP_00020), m_chaname[m_currcha].c_str());
+		sprintf_s(szTemp, RES_STRING(GP_PLAYER_CPP_00020), m_chaname[m_currcha].c_str());
 		ply->SendSysInfo(szTemp);
 
 		// 发送禁言命令
@@ -530,18 +531,18 @@ void Player::EstopPlayer(cChar* plyname, uLong lTimes) {
 	if (!g_gpsvr->m_tblcharaters->Estop(plyname, lTimes)) {
 		char szData[128];
 		//sprintf( szData, "禁言角色《%s》不存在！", plyname );
-		sprintf(szData, RES_STRING(GP_PLAYER_CPP_00023), plyname);
+		sprintf_s(szData, RES_STRING(GP_PLAYER_CPP_00023), plyname);
 		SendSysInfo(szData);
 		return;
 	} else {
 		char szData[128];
 		//sprintf( szData, "禁言角色《%s》%d分钟操作成功！", plyname, lTimes );
-		sprintf(szData, RES_STRING(GP_PLAYER_CPP_00024), plyname, lTimes);
+		sprintf_s(szData, RES_STRING(GP_PLAYER_CPP_00024), plyname, lTimes);
 		SendSysInfo(szData);
 
 		char szTemp[128];
 		//sprintf( szTemp, "你被GM角色《%s》禁言%d分钟！", m_chaname[m_currcha].c_str(), lTimes );
-		sprintf(szTemp, RES_STRING(GP_PLAYER_CPP_00025), m_chaname[m_currcha].c_str(), lTimes);
+		sprintf_s(szTemp, RES_STRING(GP_PLAYER_CPP_00025), m_chaname[m_currcha].c_str(), lTimes);
 		ply->SendSysInfo(szTemp);
 
 		// 发送禁言命令
@@ -581,7 +582,7 @@ void Player::DisablePlayer(cChar* plyname, uLong lTimes) {
 
 			char szData[128];
 			//sprintf( szData, "屏蔽角色《%s》帐号操作成功！", plyname );
-			sprintf(szData, RES_STRING(GP_PLAYER_CPP_00028), plyname);
+			sprintf_s(szData, RES_STRING(GP_PLAYER_CPP_00028), plyname);
 			SendSysInfo(szData);
 
 			//踢人成功
@@ -595,7 +596,7 @@ void Player::DisablePlayer(cChar* plyname, uLong lTimes) {
 		if (!g_gpsvr->m_tblcharaters->FetchAccidByChaName(plyname, cha_accid)) {
 			char szData[128];
 			//sprintf( szData, "屏蔽角色《%s》不存在！", plyname );
-			sprintf(szData, RES_STRING(GP_PLAYER_CPP_00031), plyname);
+			sprintf_s(szData, RES_STRING(GP_PLAYER_CPP_00031), plyname);
 			SendSysInfo(szData);
 			return;
 		} else {
@@ -608,7 +609,7 @@ void Player::DisablePlayer(cChar* plyname, uLong lTimes) {
 
 			char szData[128];
 			//sprintf( szData, "屏蔽角色《%s》帐号操作成功！", plyname );
-			sprintf(szData, RES_STRING(GP_PLAYER_CPP_00032), plyname);
+			sprintf_s(szData, RES_STRING(GP_PLAYER_CPP_00032), plyname);
 			SendSysInfo(szData);
 
 			//踢人成功

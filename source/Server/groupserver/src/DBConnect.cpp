@@ -4,6 +4,7 @@
 #include "Guild.h"
 #include "GroupServerApp.h"
 #include "GameCommon.h"
+#include <string>
 
 SQLRETURN Exec_sql_direct(const char* pszSQL, cfl_rs* pTable) {
 	//LG("group_sql", "表[%s], 开始执行SQL语句[%s]\n", pTable->get_table(), pszSQL);
@@ -678,7 +679,7 @@ bool TBLMaster::InitMasterRelation(map<uLong, uLong>& mapMasterRelation) {
 			}
 
 			// Fetch each Row
-			for (i = 0; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
+			for (int i = 0; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
 				if (sqlret != SQL_SUCCESS)
 					handle_err(hstmt, SQL_HANDLE_STMT, sqlret, sql);
 
@@ -758,7 +759,8 @@ bool TBLMaster::GetMasterData(master_dat* farray, int& array_num, unsigned int c
 			}
 
 			// Fetch each Row
-			for (i = 0; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
+			int i = 0;
+			for (i; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
 				if (i >= array_num) {
 					break;
 				}
@@ -846,7 +848,8 @@ bool TBLMaster::GetPrenticeData(master_dat* farray, int& array_num, unsigned int
 			}
 
 			// Fetch each Row
-			for (i = 0; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
+			int i = 0;
+			for (i; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
 				if (i >= array_num) {
 					break;
 				}
@@ -1210,7 +1213,8 @@ bool TBLGuilds::InitGuildMember(Player* ply, uLong chaid, uLong gldid, int mode)
 			long lPacketNum = 0;
 
 			// Fetch each Row	int i; // 取出的行数
-			for (int f_row = 1; (sqlret = SQLFetch(hstmt)) == SQL_SUCCESS || sqlret == SQL_SUCCESS_WITH_INFO; ++f_row) {
+			int f_row = 1;
+			for (f_row; (sqlret = SQLFetch(hstmt)) == SQL_SUCCESS || sqlret == SQL_SUCCESS_WITH_INFO; ++f_row) {
 				if (sqlret != SQL_SUCCESS) {
 					handle_err(hstmt, SQL_HANDLE_STMT, sqlret);
 				}
@@ -1236,6 +1240,7 @@ bool TBLGuilds::InitGuildMember(Player* ply, uLong chaid, uLong gldid, int mode)
 					l_toGuild.WriteString((cChar*)_buf[4]);		  //job
 					l_toGuild.WriteShort(atoi((cChar*)_buf[5]));  //degree
 					l_toGuild.WriteShort(atoi((cChar*)_buf[6]));  //icon
+					//std::string l_permission = (cChar*)_buf[7];
 					l_toGuild.WriteLong(stoull((cChar*)_buf[7])); //permission
 				}
 				if (ply) {
@@ -1303,7 +1308,7 @@ bool TBLParam::InitParam(void) {
 
 	SQLRETURN sqlret;
 	SQLHSTMT hstmt = SQL_NULL_HSTMT;
-	SQLINTEGER buf_len[MAXORDERNUM + MAXORDERNUM];
+	SQLLEN buf_len[MAXORDERNUM + MAXORDERNUM];
 	//	SQLINTEGER		nID = 0,nlen;
 	bool found = true;
 

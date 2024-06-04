@@ -105,8 +105,8 @@ GMBBS::GMBBS(uLong interval) : Timer(interval), m_dwCount(0) {
 GMBBS::~GMBBS() { g_gmbbs = 0; }
 bool GMBBS::AddBBS(uLong inter, uLong times, const char* word) {
 	MutexArmor l_lockQue(m_mtxque);
-	for (uLong i = 0; i < em_words && m_queue[i].m_times; i++)
-		;
+	int i = 0;
+	for (i; i < em_words && m_queue[i].m_times; i++);
 	if (i == em_words)
 		return false;
 	m_queue[i].m_start = m_dwCount;
@@ -302,7 +302,8 @@ void GroupServerApp::SendToClient(Player* ply, WPacket& wpk) {
 }
 
 GateServer* GroupServerApp::FindGateSByName(cChar* gatename) {
-	for (short i = 0; i < m_gatenum; i++) {
+	int i = 0;
+	for (i; i < m_gatenum; i++) {
 		if (m_gate[i].m_name == gatename) {
 			break;
 		}

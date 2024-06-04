@@ -984,7 +984,8 @@ bool GroupServerApp::GetCHAsFromDBByPlayer(Player* player, WPacket& wpk) {
 		std::string l_chaid[Player::emMaxCharacters];
 		player->m_chanum = char(Util_ResolveTextLine(m_tblaccounts->GetChaIDs(), l_chaid, Player::emMaxCharacters, ';'));
 		wpk.WriteChar(player->m_chanum); //角色个数
-		for (char i = 0, j = 0; j < player->m_chanum; i++, j++) {
+		char i, j = 0;
+		for (i; j < player->m_chanum; i++, j++) {
 			player->m_chaid[i] = atoi(l_chaid[j].c_str());
 			if (!player->m_chaid[i]) {
 				wpk.WriteChar(0);
