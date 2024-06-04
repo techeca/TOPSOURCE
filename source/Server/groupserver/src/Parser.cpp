@@ -19,7 +19,7 @@ CParser g_CParser;
 list<string> g_luaFNList;
 
 // 使用lua pcall的错误报告函数
-inline void lua_callalert(lua_State* L, int status) {
+void lua_callalert(lua_State* L, int status) {
 	if (status != 0) {
 		lua_getglobal(L, "_ALERT");
 		if (lua_isfunction(L, -1)) {
