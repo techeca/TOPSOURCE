@@ -6,8 +6,12 @@
             "type": "shell",
             "command": "msbuild",
             "args": [
-                "/p:Configuration=Release", 
-                "/p:Platform=Win32", 
+                "/p:Configuration=Release",
+                "/p:Platform=Win32",
+                "/m",
+                "/p:VisualStudioVersion=17.0",
+                "/p:AdditionalIncludeDirectories=${workspace}/winsrc/**",
+                "/p:LinkerSubSystem=Console",
                 "${workspaceFolder}/source/Server.sln", // replace with your server.sln path
             ],
             "group": {
