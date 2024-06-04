@@ -504,7 +504,7 @@ protected:
 inline disk_stuff::disk_stuff(char const* fname, char const* mode) {
 	_fp = fopen(fname, mode);
 	if (_fp == NULL)
-		throw bad_exception("disk_stuff constructor");
+		throw runtime_error("disk_stuff constructor");
 }
 
 inline disk_stuff::~disk_stuff() { fclose(_fp); }
@@ -515,7 +515,7 @@ inline bool disk_stuff::chfile(char const* fname, char const* mode) {
 	fclose(_fp);
 	_fp = fopen(fname, mode);
 	if (_fp == NULL)
-		throw bad_exception("disk_stuff chfile");
+		throw runtime_error("disk_stuff chfile");
 	return true;
 }
 
@@ -529,10 +529,10 @@ public:
 };
 
 inline cache_stuff::cache_stuff(char const* fname, char const* mode) try : disk_stuff(fname, mode) {
-} catch (bad_exception& be) {
+} catch (runtime_error& be) {
 	throw be;
 } catch (...) {
-	throw bad_exception("other exception in cache_stuff");
+	throw runtime_error("other exception in cache_stuff");
 };
 
 inline cache_stuff::~cache_stuff() {}
@@ -556,10 +556,10 @@ protected:
 inline mem_stuff::mem_stuff(char const* fname, char const* mode) try : disk_stuff(fname, mode) {
 	_dat = NULL;
 	_len = 0;
-} catch (bad_exception& be) {
+} catch (runtime_error& be) {
 	throw be;
 } catch (...) {
-	throw bad_exception("other exception in mem_stuff");
+	throw runtime_error("other exception in mem_stuff");
 };
 
 inline mem_stuff::~mem_stuff() {
@@ -583,16 +583,16 @@ inline bool mem_stuff::load()
 		p = new unsigned char[len];
 	} catch (bad_alloc& ba) {
 		(ba);
-		throw bad_exception("no heap to new");
+		throw runtime_error("no heap to new");
 	} catch (...) {
-		throw bad_exception("other exception to new in mem_stuff::load");
+		throw runtime_error("other exception to new in mem_stuff::load");
 	}
 
 	// allocate heap successfully, so read all data from disk
 	SEEK(0, SEEK_SET);
 	if (READ(p, 1, len) < size_t(len)) {
 		delete p;
-		throw bad_exception("fread fault in mem_stuff::load");
+		throw runtime_error("fread fault in mem_stuff::load");
 	}
 
 	// all data read into memory successfully
@@ -613,7 +613,7 @@ inline bool mem_stuff::chfile(char const* fname, char const* mode /* = "rb" */) 
 	if (READ(_dat, 1, _len) < size_t(_len)) {
 		delete _dat;
 		_dat = NULL;
-		throw bad_exception("fread fault in mem_stuff::chfile");
+		throw runtime_error("fread fault in mem_stuff::chfile");
 	}
 
 	return true;
@@ -650,10 +650,10 @@ public:
 inline terrain_attr_mem::terrain_attr_mem(char const* fname) try : terrain_attr(), mem_stuff(fname, "rb") {
 	load();
 	_hdr = (terrain_attr_hdr*)_dat;
-} catch (bad_exception& ba) {
+} catch (runtime_error& ba) {
 	throw ba;
 } catch (...) {
-	throw bad_exception("exception in terrain_attr_mem constructor");
+	throw runtime_error("exception in terrain_attr_mem constructor");
 };
 
 inline terrain_attr_mem::~terrain_attr_mem() {}
