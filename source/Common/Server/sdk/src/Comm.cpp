@@ -198,7 +198,7 @@ long TcpCommApp::SendData(DataSocket* datasock, WPacket sendbuf) {
 		return _SendData(datasock, sendbuf);
 	}
 }
-inline long TcpCommApp::_SendData(DataSocket* datasock, WPacket& sendbuf) {
+long TcpCommApp::_SendData(DataSocket* datasock, WPacket& sendbuf) {
 	if (!datasock || datasock->m_delflag || !bool(sendbuf)) {
 		return -1;
 	}
