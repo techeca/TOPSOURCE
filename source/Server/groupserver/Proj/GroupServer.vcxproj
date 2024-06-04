@@ -50,7 +50,7 @@
     <OutDir>$(ProjectDir)..\..\..\..\server\</OutDir>
     <IntDir>tmp\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>E:\Database\source\dev\corsairs-online-public\source\Common\ICUHelper\lib;E:\Database\source\dev\corsairs-online-public\source\Common\LuaJIT\src;E:\Database\source\dev\corsairs-online-public\source\Common;E:\Database\source\dev\corsairs-online-public\source\Common\Common\include;E:\Database\source\dev\corsairs-online-public\source\Common\CaLua\include;E:\Database\source\dev\corsairs-online-public\source\Common\Server\sdk\lib;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -92,7 +92,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>lua51.lib;Ws2_32.lib;LIBDBC.lib;logutil.lib;WinMM.lib;Common.lib;ICUHelper.lib;icudt.lib;icuuc.lib;icuin.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>E:\Database\source\dev\corsairs-online-public\source\Common\CaLua\include;E:\Database\source\dev\corsairs-online-public\source\Common\Server\sdk\lib;E:\Database\source\dev\corsairs-online-public\source\Common\LuaJIT\src;E:\Database\source\dev\corsairs-online-public\source\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\Server\sdk\lib;$(ProjectDir)..\..\..\Common\Util\lib;$(ProjectDir)..\..\..\Common\Common\lib;$(ProjectDir)..\..\..\Common\CaLua\lib;$(ProjectDir)..\..\..\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\icu\lib;$(ProjectDir)..\..\..\Common\luajit\src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\Common\Server\sdk\lib;$(ProjectDir)..\..\..\Common\Util\lib;$(ProjectDir)..\..\..\Common\Common\lib;$(ProjectDir)..\..\..\Common\CaLua\lib;$(ProjectDir)..\..\..\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\icu\lib;$(ProjectDir)..\..\..\Common\luajit\src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>

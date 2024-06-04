@@ -43,7 +43,7 @@
     <OutDir>$(ProjectDir)..\..\..\..\server\</OutDir>
     <IntDir>tmp\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>E:\Database\source\dev\corsairs-online-public\source\Common\Server\sdk\lib;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)..\..\..\..\server\</OutDir>
@@ -73,7 +73,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>Ws2_32.lib;shlwapi.lib;LIBDBC.lib;logutil.lib;winmm.lib;status.lib;ICUHelper.lib;icudt.lib;icuuc.lib;icuin.lib;Psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>E:\Database\source\dev\corsairs-online-public\source\Common\Server\sdk\lib;$(ProjectDir)..\..\..\Common\Server\sdk\lib;$(ProjectDir)..\..\..\Common\Common\lib;$(ProjectDir)..\..\..\Common\Util\lib;$(ProjectDir)..\..\..\Common\EncLib\lib;$(ProjectDir)..\..\..\Common\Status\Lib;$(ProjectDir)..\..\..\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\icu\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\Common\Server\sdk\lib;$(ProjectDir)..\..\..\Common\Common\lib;$(ProjectDir)..\..\..\Common\Util\lib;$(ProjectDir)..\..\..\Common\EncLib\lib;$(ProjectDir)..\..\..\Common\Status\Lib;$(ProjectDir)..\..\..\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\icu\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>

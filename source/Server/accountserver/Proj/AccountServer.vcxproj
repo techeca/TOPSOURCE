@@ -50,7 +50,7 @@
     <OutDir>$(ProjectDir)..\..\..\..\server\</OutDir>
     <LinkIncremental>false</LinkIncremental>
     <IntDir>tmp\$(Configuration)\</IntDir>
-    <IncludePath>E:\Database\source\dev\corsairs-online-public\source\Common\CaLua\include;E:\Database\source\dev\corsairs-online-public\source\Common\Common\include;E:\Database\source\dev\corsairs-online-public\source\Common;E:\Database\source\dev\corsairs-online-public\source\Common\Server\sdk\lib;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
