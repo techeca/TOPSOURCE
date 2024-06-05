@@ -1278,7 +1278,8 @@ bool CCharacter::DoTigerScript(dbc::cChar* cszFunc) {
 			return false;
 		}
 
-		for (i = 0; i < 9; i++) {
+		int i = 0;
+		for (i; i < 9; i++) {
 			sRet = (short)lua_tonumber(g_pLuaState, i + 1);
 			if (sRet <= 0) {
 				memset(m_sTigerItemID, 0, sizeof(m_sTigerItemID));
@@ -1306,7 +1307,7 @@ bool CCharacter::DoTigerScript(dbc::cChar* cszFunc) {
 			lua_pushnumber(g_pLuaState, m_sTigerItemID[i]);
 			nParamNum++;
 		}
-		for (i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			lua_pushnumber(g_pLuaState, m_sTigerSel[i]);
 			nParamNum++;
 		}

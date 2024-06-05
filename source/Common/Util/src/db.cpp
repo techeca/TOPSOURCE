@@ -1063,7 +1063,7 @@ RECONNECT:
 
 	SQLRETURN sqlret;
 	SQLHSTMT hstmt = SQL_NULL_HSTMT;
-	SQLINTEGER data_len = SQL_NTS;
+	SQLLEN data_len = SQL_NTS;
 
 	do {
 		sqlret = SQLAllocHandle(SQL_HANDLE_STMT, _hdbc, &hstmt);
@@ -1166,7 +1166,7 @@ bool cfl_rs::getalldata(const char* sql, vector<vector<string>>& data, unsigned 
 			}
 
 			// Fetch each Row
-			for (i = 0; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
+			for (int i = 0; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
 				vector<string> rowV;
 
 				if (sqlret != SQL_SUCCESS)
@@ -1450,7 +1450,8 @@ bool friend_tbl::get_friend_dat(friend_dat* farray, int& array_num, unsigned int
 			}
 
 			// Fetch each Row
-			for (i = 0; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
+			int i = 0;
+			for (i; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
 				if (i >= array_num) {
 					if (drop != NULL)
 						*drop = true;
@@ -1593,7 +1594,8 @@ bool friend_tbl::get_gm_dat(friend_dat* farray, int& array_num, bool* drop) {
 			}
 
 			// Fetch each Row
-			for (i = 0; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
+			int i = 0;
+			for (i; ((sqlret = SQLFetch(hstmt)) == SQL_SUCCESS) || (sqlret == SQL_SUCCESS_WITH_INFO); ++i) {
 				if (i >= array_num) {
 					if (drop != NULL)
 						*drop = true;

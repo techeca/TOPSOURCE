@@ -1859,7 +1859,8 @@ bool CFightAble::AddExpAndNotic(dbc::Long lAddExp, Short sNotiType) {
 }
 
 void CFightAble::SpawnResource(CCharacter* pCAtk, dbc::Long lSkillLv) {
-	T_B for (Long i = 0; i < defCHA_INIT_ITEM_NUM; i++) {
+	Long i = 0;
+	T_B for (i; i < defCHA_INIT_ITEM_NUM; i++) {
 		if (m_pCChaRecord->lItem[i][1] <= 0)
 			break;
 	}

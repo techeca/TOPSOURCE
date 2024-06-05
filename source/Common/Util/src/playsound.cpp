@@ -727,7 +727,8 @@ int wave_cache_find(char const* fname)
 	bool found = false;
 	int found_id;
 
-	for (int i = WAV_CACHE_ID_START; i <= WAV_CACHE_ID_END; ++i) {
+	int i = WAV_CACHE_ID_START;
+	for (i; i <= WAV_CACHE_ID_END; ++i) {
 		p = &wave_cache_dat_array[i];
 		if (!p->used)
 			break;
@@ -975,7 +976,8 @@ bool env_snd_is_full() {
 	if (!is_env_snd_enable())
 		return true;
 
-	for (int i = ENV_SND_ID_START; i <= ENV_SND_ID_END; ++i) {
+	int i = ENV_SND_ID_START;
+	for (i; i <= ENV_SND_ID_END; ++i) {
 		if (!is_used(i))
 			break;
 	}
@@ -987,7 +989,8 @@ int env_snd_add(char const* fname) {
 	if (!is_env_snd_enable())
 		return -1;
 
-	for (int i = ENV_SND_ID_START; i <= ENV_SND_ID_END; ++i) {
+	int i = ENV_SND_ID_START;
+	for (i; i <= ENV_SND_ID_END; ++i) {
 		if (!is_used(i)) {
 			mus_cmd_add(i, fname, true);
 			break;
@@ -1028,7 +1031,8 @@ bool cmn_snd_play(char const* fname, int vol) {
 	if (!is_cmn_snd_enable())
 		return false;
 
-	for (int i = CMN_SND_ID_START; i < CMN_SND_ID_END; ++i) {
+	int i = CMN_SND_ID_START;
+	for (i; i < CMN_SND_ID_END; ++i) {
 		if (!is_used(i))
 			break;
 	}

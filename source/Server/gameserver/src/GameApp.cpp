@@ -1201,7 +1201,8 @@ BOOL CGameApp::SummonNpc(BYTE byMapID, USHORT sAreaID, const char szNpc[], USHOR
 CMapRes* CGameApp::FindMapByName(const char* mapname, bool bIncUnRun) {
 	T_B if (!mapname) return 0;
 
-	for (short i = 0; i < m_mapnum; i++) {
+	short i = 0;
+	for (i; i < m_mapnum; i++) {
 		CMapRes* pMap = m_MapList[i];
 		if (!pMap)
 			continue; // 有可能还没有初始化

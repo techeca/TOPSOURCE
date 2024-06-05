@@ -449,7 +449,7 @@ TDt& TDt::Set(const char* a_p) {
 		return Set(Month, Day, Get4DigitYear(Year));
 	}
 
-	for (n = 0; n < len; n++)
+	for (int n = 0; n < len; n++)
 		if (p[n] == '-')
 			p[n] = '/';
 
@@ -1613,7 +1613,7 @@ void CSQLRecordset::SetHDBC(HDBC* a_hdbc) {
 std::string CSQLRecordset::SQLGetData(int a_uRow, int a_eDataType) {
 	_result = "";
 
-	SDWORD cbData;
+	SQLLEN cbData;
 	// unfinished: rewrite this for pointer to buffer and dynamically allocate it )
 	char ach[10240];
 	ach[0] = 0;
@@ -1680,7 +1680,7 @@ void CSQLRecordset::SetGroupBy(const char* a_szGroupBy) {
 
 int CSQLRecordset::GetColumns() {
 	char ach[32];
-	SDWORD dwDesc;
+	SQLLEN dwDesc;
 	SWORD cbDesc;
 	_rc = ::SQLColAttributes(_hstmt, 1, SQL_COLUMN_COUNT, ach, sizeof(ach), &cbDesc, &dwDesc);
 	if (_rc != SQL_SUCCESS && _rc != SQL_SUCCESS_WITH_INFO)
@@ -1759,7 +1759,7 @@ int CSQLRecordset::GetColumnType(int a_nColumn) {
 	unsigned char achColName[SQL_MAX_COLUMN_NAME_LEN + 1];
 	SWORD cbColName;
 	SWORD fSQLType;
-	UDWORD cbPrecision;
+	SQLULEN cbPrecision;
 	SWORD cbScale;
 	SWORD fNullable;
 	_rc = ::SQLDescribeCol(_hstmt, a_nColumn, achColName,

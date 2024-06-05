@@ -166,7 +166,7 @@ int CLanguageRecord::ReplaceString(char* _str, const char* _old, const char* _ne
 
 // 替换
 int CLanguageRecord::Find(const char* _str, const char* _find) {
-	char* __ptr = 0;
+	const char* __ptr = 0;
 
 	__ptr = strstr(_str, _find);
 	if (__ptr) {

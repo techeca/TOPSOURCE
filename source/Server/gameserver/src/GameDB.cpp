@@ -192,7 +192,8 @@ bool CTableCha::ShowExpRank(CCharacter* pCha, int count) {
 		WPACKET l_wpk = GETWPACKET();
 		WRITE_CMD(l_wpk, CMD_MC_RANK);
 
-		for (int f_row = 0; (sqlret = SQLFetch(hstmt)) == SQL_SUCCESS || sqlret == SQL_SUCCESS_WITH_INFO; ++f_row) {
+		int f_row = 0;
+		for (f_row; (sqlret = SQLFetch(hstmt)) == SQL_SUCCESS || sqlret == SQL_SUCCESS_WITH_INFO; ++f_row) {
 			if (sqlret != SQL_SUCCESS) {
 				handle_err(hstmt, SQL_HANDLE_STMT, sqlret);
 			}
@@ -4086,7 +4087,8 @@ bool CTableGuild::ListAll(CCharacter* pCha, char disband_days) {
 		WRITE_CHAR(l_wpk0, 1); //guild type  - now hardcoded as pirate.
 
 		// Fetch each Row	int i; // 取出的行数
-		for (int f_row = 1; (sqlret = SQLFetch(hstmt)) == SQL_SUCCESS || sqlret == SQL_SUCCESS_WITH_INFO; ++f_row) {
+		int f_row = 1;
+		for (f_row; (sqlret = SQLFetch(hstmt)) == SQL_SUCCESS || sqlret == SQL_SUCCESS_WITH_INFO; ++f_row) {
 			if (sqlret != SQL_SUCCESS) {
 				handle_err(hstmt, SQL_HANDLE_STMT, sqlret);
 			}
@@ -4470,7 +4472,8 @@ bool CTableGuild::ListTryPlayer(CCharacter* pCha, char disband_days) {
 		}
 
 		// Fetch each Row	int i; // 取出的行数
-		for (int f_row = 0; (sqlret = SQLFetch(hstmt)) == SQL_SUCCESS || sqlret == SQL_SUCCESS_WITH_INFO; ++f_row) {
+		int f_row = 0;
+		for (f_row; (sqlret = SQLFetch(hstmt)) == SQL_SUCCESS || sqlret == SQL_SUCCESS_WITH_INFO; ++f_row) {
 			if (sqlret != SQL_SUCCESS) {
 				handle_err(hstmt, SQL_HANDLE_STMT, sqlret);
 			}

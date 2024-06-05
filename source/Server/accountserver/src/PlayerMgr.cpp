@@ -8,6 +8,8 @@
 //#include "MyThread.h"
 #include "GlobalVariable.h"
 
+#include <string>
+
 struct sPlayerData {
 	CTime ctLoginTime;
 };
@@ -56,7 +58,7 @@ void CPlayerMgr::PlayerLogout(std::string strPlayerName) {
 		char lpSQLBuf[200];
 		__int64 i64Span = ctSpan.GetTotalSeconds();
 		if (g_TomService.IsEnable()) {
-			sprintf(lpSQLBuf, "update tom_account set total_live_time=total_live_time+%I64d where name='%s'", i64Span, strPlayerName.c_str());
+			sprintf_s(lpSQLBuf, "update tom_account set total_live_time=total_live_time+%I64d where name='%s'", i64Span, strPlayerName.c_str());
 			pDB->ExecuteSQL(lpSQLBuf);
 		} else {
 			//原计时方式在登陆时已经修改
