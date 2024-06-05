@@ -11,6 +11,8 @@
 #include "TryUtil.h"
 #include "Character.h"
 
+#include <string>
+
 _DBC_USING;
 
 CAction::CAction(Entity* pCEntity) {

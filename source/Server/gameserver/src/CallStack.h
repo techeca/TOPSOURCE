@@ -5,6 +5,8 @@
 
 #include "StackWalker.h"
 
+#include <cstdio>
+
 // Simple implementation of an additional output to the console:
 class MyStackWalker : public StackWalker {
 public:

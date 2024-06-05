@@ -9,6 +9,8 @@
 
 #include "EntityAlloc.h"
 
+#include <string>
+
 char g_szEntiAlloc[256] = "EntityAlloc";
 
 CEntityAlloc::CEntityAlloc(long lChaNum, long lItemNum, long lTNpcNum) {

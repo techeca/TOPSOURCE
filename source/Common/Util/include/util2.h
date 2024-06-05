@@ -95,7 +95,7 @@ T* Singleton<T>::Instance() {
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/stat.h>
-#include <sys/dir.h>
+//#include <sys/dir.h>
 
 #define VOID void
 #define BYTE unsigned char

@@ -1,6 +1,10 @@
 #pragma once
 
 #include "TableData.h"
+#include <windows.h>
+
+#include "../../AudioSDL/inc/datatype.h"
+#include "../../Util/include/util2.h"
 
 // 数据项 ID 地名 标识颜色
 class CAreaInfo : public CRawDataInfo {

@@ -18,9 +18,9 @@ public:
 	void Unlock();
 
 private:
-#ifdef WIN32
+//#ifdef WIN32
 	CRITICAL_SECTION _cs;
-#endif
+//#endif
 };
 
 #define LOGBUF_SIZE (8 * 1024)
@@ -88,10 +88,10 @@ public:
 	static std::string* pstrLogDir;
 	static bool bEraseMode;
 
-#ifdef WIN32
+//#ifdef WIN32
 	static void SetWnd(HWND hWnd);
 	static HWND GetWnd();
-#endif
+//#endif
 
 	CLog2* Add(char const* szName, char const* szExt = "log");
 	bool Remove(char const* szName);
@@ -122,9 +122,9 @@ private:
 	static CLog2Mgr* _pSelf;
 	static bool _bEnable;
 	static bool _bEnableMsgBox;
-#ifdef WIN32
+//#ifdef WIN32
 	static HWND _hWnd;
-#endif
+//#endif
 
 	std::map<std::string, CLog2*> _LogMap;
 	CThrdLock _MapLock;

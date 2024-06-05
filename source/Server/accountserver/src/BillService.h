@@ -4,6 +4,7 @@
 #include "BTIService.h"
 #include "PlayerMgr.h"
 
+
 class CBillService //只允许创建一个全局对象,不支持多线程
 {
 public:

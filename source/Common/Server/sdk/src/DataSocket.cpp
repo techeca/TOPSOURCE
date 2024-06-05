@@ -31,7 +31,7 @@ void DataSocket::Initially() {
 	m_deltime = m_delflag = m_delremain = 0;
 	m_delreason = 0;
 	m_isProcess = 1;
-	m_pktn = 0;
+	//m_pktn = 0; //Not defined in DataSocket.h
 
 	m_sender.Initially();
 	m_receiver.Initially();

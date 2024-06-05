@@ -10,6 +10,8 @@
 
 #include "pch.h"
 
+#include <windows.h>
+
 typedef struct tagLogPacketHdr {
 	DWORD dwSize;	   // 包头长度
 	DWORD dwFullSize;  // 整个包长度

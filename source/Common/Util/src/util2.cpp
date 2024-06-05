@@ -3,6 +3,8 @@
 #include <list>
 #include "Iphlpapi.h"
 
+#include <direct.h>
+
 #pragma comment(lib, "Iphlpapi.lib")
 
 #ifdef _DEBUG
@@ -170,7 +172,7 @@ void Util_TrimString(std::string& str) {
 	delete[] pNew;
 }
 
-// ÐÞÕýÓ¢ÎÄ MAKEBIN ¿Õ¸ñ¶ªÊ§ÎÊÌâ  modify by Philip.Wu  2006-07-31
+// ï¿½ï¿½ï¿½ï¿½Ó¢ï¿½ï¿½ MAKEBIN ï¿½Õ¸ï¿½Ê§ï¿½ï¿½ï¿½ï¿½  modify by Philip.Wu  2006-07-31
 void Util_TrimTabString(std::string& str) {
 	char* psz = (char*)(str.c_str());
 	size_t nSize = str.size();
@@ -231,7 +233,7 @@ void Util_Sleep(int ms) {
 #endif
 
 #ifdef LINUX
-	usleep(ms * 1000);
+	//usleep(ms * 1000);
 #endif
 }
 
@@ -263,13 +265,15 @@ bool Util_MakeDir(const char* lpPath) {
 
 		{
 #ifdef WIN32
+#include <direct.h>
+
 			_mkdir(path.c_str());
 #endif
 
 #ifdef LINUX
 
-			int mode = S_IRWXU | S_IRWXG;
-			mkdir(path.c_str(), mode);
+			//int mode = S_IRWXU | S_IRWXG;
+			//mkdir(path.c_str(), mode);
 #endif
 		}
 		pt = pathname.find('/', pt + 1);
@@ -316,7 +320,7 @@ int Util_ResolveTextLine(const char* pszText, std::string strList[],
 	if (pszText == NULL || strlen(pszText) == 0)
 		return 0;
 
-	// Èç¹ûÃ»ÓÃ·Ö¸î·û£¬»òÔ´´®Ö»ÓÐ1¸ö×Ö·û
+	// ï¿½ï¿½ï¿½Ã»ï¿½Ã·Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½Ö»ï¿½ï¿½1ï¿½ï¿½ï¿½Ö·ï¿½
 	if ((nSep == 0 && nSep2 == 0) || (strlen(pszText) == 1)) {
 		strList[0] = pszText;
 		return 1;
@@ -324,47 +328,47 @@ int Util_ResolveTextLine(const char* pszText, std::string strList[],
 
 	int nResult = 0;
 	if ((nSep != 0) && (nSep2 != 0) && (nSep != nSep2)) {
-		// Í¬Ê±Ö§³ÖÁ½¸ö£¬¿Õ¸ñºÍÖÆ±í·û
+		// Í¬Ê±Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ¸ï¿½ï¿½ï¿½Æ±ï¿½ï¿½ï¿½
 		std::string lstrList[80];
 		int n1 = 0;
 		int n2 = 0;
 
-		// ¿´×Ö·û´®ÖÐÊÇ·ñÓÐÁ½ÖÖ¼ä¸ô·û
+		// ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½ï¿½
 		char* pszFound1 = NULL;
 		char* pszFound2 = NULL;
 		pszFound1 = (char*)strchr(pszText, nSep);
 		pszFound2 = (char*)strchr(pszText, nSep2);
 
 		if ((pszFound1 == NULL) || (pszFound2 == NULL)) {
-			// Ö»ÓÐÒ»ÖÖ·Ö¸ô·û»ò¶¼Ã»ÓÐ
+			// Ö»ï¿½ï¿½Ò»ï¿½Ö·Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½
 			if (pszFound1 != NULL)
 				nResult = Util_ResolveTextLine1(pszText, strList, nMax, nSep);
 			else if (pszFound2 != NULL)
 				nResult = Util_ResolveTextLine1(pszText, strList, nMax, nSep2);
 			else {
-				// Á½ÖÖ·Ö¸ô·û¶¼Ã»ÓÐ
+				// ï¿½ï¿½ï¿½Ö·Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½
 				strList[0] = pszText;
 				return 1;
 			}
 		} else {
-			// Á½ÖÖ·Ö¸ô·û¶¼ÓÐ
+			// ï¿½ï¿½ï¿½Ö·Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			std::string newString;
 
-			// ÏÈÈ¥µôµÚÒ»¸ö
+			// ï¿½ï¿½È¥ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
 			n1 = Util_ResolveTextLine1(pszText, lstrList, nMax, nSep);
 
-			// ½«Ê£ÓàµÄÖØÐÂÁ¬½ÓÆðÀ´
+			// ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			for (int i = 0; i < n1; ++i) {
 				newString += lstrList[i] + char(nSep2);
 			}
 
-			// ÔÙÈ¥³ýµÚ¶þ¸ö
+			// ï¿½ï¿½È¥ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½
 			char const* p = newString.c_str();
 			n2 = Util_ResolveTextLine1(newString.c_str(), strList, nMax, nSep2);
 			nResult = n2;
 		}
 	} else {
-		// Ö»ÓÐÒ»¸ö£¬nSepºÍnSep2¿ÉÄÜÏàÍ¬
+		// Ö»ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½nSepï¿½ï¿½nSep2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
 		int sep = 0;
 		if (nSep != 0)
 			sep = nSep;
@@ -385,31 +389,31 @@ const struct tm* Util_GetCurTime() {
 	return g_tm;
 	/*
 tm_sec
-Seconds after minute (0 ¨C 59)
+Seconds after minute (0 ï¿½C 59)
 
 tm_min
-Minutes after hour (0 ¨C 59)
+Minutes after hour (0 ï¿½C 59)
 
 tm_hour
-Hours after midnight (0 ¨C 23)
+Hours after midnight (0 ï¿½C 23)
 
 tm_mday
-Day of month (1 ¨C 31)
+Day of month (1 ï¿½C 31)
 
 tm_mon
-Month (0 ¨C 11; January = 0)
+Month (0 ï¿½C 11; January = 0)
 
 tm_year
 Year (current year minus 1900)
 
 tm_wday
-Day of week (0 ¨C 6; Sunday = 0)
+Day of week (0 ï¿½C 6; Sunday = 0)
 
 tm_yday
-Day of year (0 ¨C 365; January 1 = 0)
+Day of year (0 ï¿½C 365; January 1 = 0)
 
 tm_isdst
-Positive value if daylight saving time is in effect; 0 if daylight saving time is not in effect; negative value if status of daylight saving time is unknown. The C run-time library assumes the United States¡¯s rules for implementing the calculation of Daylight Saving Time (DST). 
+Positive value if daylight saving time is in effect; 0 if daylight saving time is not in effect; negative value if status of daylight saving time is unknown. The C run-time library assumes the United Statesï¿½ï¿½s rules for implementing the calculation of Daylight Saving Time (DST). 
 */
 }
 
@@ -512,7 +516,7 @@ void ProcessDirectory(const char* pszDir, std::list<std::string>* pFileList, int
 #endif
 
 #ifdef LINUX
-	int nLen = strlen(pszDir);
+	/*int nLen = strlen(pszDir);
 	DIR* dir;
 	if (nLen == 0) {
 		dir = opendir(".");
@@ -554,7 +558,7 @@ void ProcessDirectory(const char* pszDir, std::list<std::string>* pFileList, int
 	}		  // dir is exist
 	else {
 		// Log("ERR : Directory [%s] is not exist\n" ,  pszDir);
-	}
+	}*/
 #endif
 }
 

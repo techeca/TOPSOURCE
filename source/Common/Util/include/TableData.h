@@ -28,6 +28,12 @@
 #include <fstream>
 #include "i18n.h"
 
+#include <windows.h>
+#include <list>
+#include <string>
+#include <vector>
+#include "logutil.h"
+
 class CRawDataInfo {
 public:
 	CRawDataInfo()

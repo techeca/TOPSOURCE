@@ -8,6 +8,8 @@
 #include "BillThread.h"
 #include "GlobalVariable.h"
 
+#include <string>
+
 bool BillThread::m_bBillingInitialized = false;
 
 BillThread::BillThread() : PKQueue(false) {

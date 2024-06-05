@@ -8,6 +8,8 @@
 #include ".\billservice.h"
 #include "GlobalVariable.h"
 
+#include <string>
+
 bool CBillService::m_bBillingInitialized = false;
 
 CBillService::CBillService(void) {

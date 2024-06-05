@@ -6,6 +6,8 @@
 #include "CharScript.h"
 #include "EntityScript.h"
 
+#include "lua.hpp"
+
 //---------------------------------------------------------
 extern const char* GetResPath(const char* pszRes);
 
