@@ -1278,8 +1278,7 @@ bool CCharacter::DoTigerScript(dbc::cChar* cszFunc) {
 			return false;
 		}
 
-		int i = 0;
-		for (i; i < 9; i++) {
+		for (int i = 0; i < 9; i++) {
 			sRet = (short)lua_tonumber(g_pLuaState, i + 1);
 			if (sRet <= 0) {
 				memset(m_sTigerItemID, 0, sizeof(m_sTigerItemID));

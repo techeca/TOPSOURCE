@@ -11,6 +11,8 @@
 #include "GameDB.h"
 #include "CharStall.h"
 
+#include <string>
+
 _DBC_USING;
 
 CPlayer::CPlayer() : m_sGarnerWiner(0) {
@@ -137,7 +139,7 @@ void CPlayer::SetIMP(long imp, bool sync) {
 	m_lIMP = imp < 2000000000 ? imp : 2000000000;
 	if (sync) {
 		char cmd[64];
-		sprintf(cmd, "SetIMPAcc('%s',%d)", GetActName(), GetIMP());
+		sprintf_s(cmd, "SetIMPAcc('%s',%d)", GetActName(), GetIMP());
 		WPACKET WtPk = GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MM_DO_STRING);
 		WRITE_LONG(WtPk, GetID());
@@ -979,7 +981,7 @@ char* CPlayer::BankDBIDData2String(char* szSStateBuf, int nLen) {
 	szSStateBuf[0] = '\0';
 
 	for (char i = 0; i < m_chBankNum; i++) {
-		sprintf(szData, "%d", m_lBankDBID[i]);
+		sprintf_s(szData, "%d", m_lBankDBID[i]);
 		nDataLen = (int)strlen(szData);
 		if (nBufLen + nDataLen >= nLen)
 			return NULL;
@@ -987,7 +989,7 @@ char* CPlayer::BankDBIDData2String(char* szSStateBuf, int nLen) {
 		nBufLen += nDataLen;
 
 		if (i < m_chBankNum - 1) {
-			sprintf(szData, ",", m_lBankDBID[i]);
+			sprintf_s(szData, ",", m_lBankDBID[i]);
 			nDataLen = (int)strlen(szData);
 			if (nBufLen + nDataLen >= nLen)
 				return NULL;

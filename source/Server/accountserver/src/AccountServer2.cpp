@@ -8,6 +8,8 @@
 #include "util.h"
 #include "GlobalVariable.h"
 
+#include <string>
+
 #pragma warning(disable : 4800)
 
 //TLSIndex g_TlsIndex;
@@ -79,15 +81,15 @@ void AccountServer2::OnProcessData(DataSocket* datasock, RPacket& rpkt) {
 	switch (usCmd) {
 		// GroupServer协议
 	case CMD_PA_CHANGEPASS: {
-		string name = rpkt.ReadString();
-		string pass = rpkt.ReadString();
+		std::string name = rpkt.ReadString();
+		std::string pass = rpkt.ReadString();
 		g_MainDBHandle.UpdatePassword(name, pass);
 		break;
 	}
 	case CMD_PA_REGISTER: {
-		string name = rpkt.ReadString();
-		string pass = rpkt.ReadString();
-		string email = rpkt.ReadString();
+		std::string name = rpkt.ReadString();
+		std::string pass = rpkt.ReadString();
+		std::string email = rpkt.ReadString();
 		g_MainDBHandle.InsertUser(name, pass, email);
 		break;
 	}
@@ -618,7 +620,7 @@ bool AuthThread::Connect() {
 	// 连接database
 	char conn_str[512] = {0};
 	char const* conn_fmt = "DRIVER={SQL Server};SERVER=%s;UID=%s;PWD=%s;DATABASE=%s";
-	sprintf(conn_str, conn_fmt, m_strSrvip.c_str(), m_strUserId.c_str(),
+	sprintf_s(conn_str, conn_fmt, m_strSrvip.c_str(), m_strUserId.c_str(),
 			m_strUserPwd.c_str(), m_strSrvdb.c_str());
 	ret = m_pAuth->Open(conn_str);
 	if (ret) {
@@ -658,13 +660,13 @@ void AuthThread::LoadConfig() {
 	std::string strTmp = "";
 
 	try {
-		sprintf(buf, "dbserver");
+		sprintf_s(buf, "dbserver");
 		m_strSrvip = is[buf].c_str();
-		sprintf(buf, "db");
+		sprintf_s(buf, "db");
 		m_strSrvdb = is[buf].c_str();
-		sprintf(buf, "userid");
+		sprintf_s(buf, "userid");
 		m_strUserId = is[buf].c_str();
-		sprintf(buf, "passwd");
+		sprintf_s(buf, "passwd");
 		strTmp = is[buf].c_str();
 		//m_strUserPwd = strTmp;
 	} catch (excp& e) {
@@ -757,7 +759,7 @@ WPacket AuthThread::TomAccountLogin(DataSocket* datasock, RPacket& rpkt) {
 	//有效的帐号，登记到数据库(若为空则添加新记录)
 	char lpszSQLBuf[512];
 	CSQLRecordset rs(*m_pAuth);
-	sprintf(lpszSQLBuf, "select id, login_status, from_server, last_login_tick, ban from %s where name='%s'", m_strAccountTableName.c_str(), strUserName.c_str());
+	sprintf_s(lpszSQLBuf, "select id, login_status, from_server, last_login_tick, ban from %s where name='%s'", m_strAccountTableName.c_str(), strUserName.c_str());
 	rs << lpszSQLBuf;
 	rs.SQLExecDirect();
 	if (rs.SQLFetch()) //存在记录
@@ -794,7 +796,7 @@ WPacket AuthThread::TomAccountLogin(DataSocket* datasock, RPacket& rpkt) {
 				KickAccount(strLastFromServerName, nUserID);
 			}
 #else
-			sprintf(lpszSQLBuf, "update %s set login_status=2, enable_login_time=getdate(), last_login_tick=%d where id=%d", m_strAccountTableName.c_str(), GetTickCount(), nUserID);
+			sprintf_s(lpszSQLBuf, "update %s set login_status=2, enable_login_time=getdate(), last_login_tick=%d where id=%d", m_strAccountTableName.c_str(), GetTickCount(), nUserID);
 			rs << lpszSQLBuf;
 			rs.SQLExecDirect();
 			if (strFromServerName == strLastFromServerName) //源自相同GroupServer的登陆
@@ -819,7 +821,7 @@ WPacket AuthThread::TomAccountLogin(DataSocket* datasock, RPacket& rpkt) {
 			}
 		}
 		//允许登陆
-		sprintf(lpszSQLBuf, "update %s set login_status=1, from_server='%s', enable_login_time=getdate(), last_login_tick=%d, last_login_time=getdate(), last_login_ip='%s' where id=%d",
+		sprintf_s(lpszSQLBuf, "update %s set login_status=1, from_server='%s', enable_login_time=getdate(), last_login_tick=%d, last_login_time=getdate(), last_login_ip='%s' where id=%d",
 				m_strAccountTableName.c_str(), strFromServerName.c_str(), GetTickCount(), strIP.c_str(), nUserID);
 		rs << lpszSQLBuf;
 		rs.SQLExecDirect();
@@ -863,12 +865,12 @@ WPacket AuthThread::TomAccountLogin(DataSocket* datasock, RPacket& rpkt) {
 */
 	} else //不存在记录
 	{
-		sprintf(lpszSQLBuf, "insert into %s (name, login_status, from_server, create_time, last_login_tick, last_login_time, last_login_ip, enable_login_time) values ('%s', 1, '%s', getdate(), %d, getdate(), '%s', getdate())",
+		sprintf_s(lpszSQLBuf, "insert into %s (name, login_status, from_server, create_time, last_login_tick, last_login_time, last_login_ip, enable_login_time) values ('%s', 1, '%s', getdate(), %d, getdate(), '%s', getdate())",
 				m_strAccountTableName.c_str(), strUserName.c_str(), strFromServerName.c_str(), GetTickCount(), strIP.c_str());
 		rs << lpszSQLBuf;
 		rs.SQLExecDirect();
 
-		sprintf(lpszSQLBuf, "select id from %s where name='%s'", m_strAccountTableName.c_str(), strUserName.c_str());
+		sprintf_s(lpszSQLBuf, "select id from %s where name='%s'", m_strAccountTableName.c_str(), strUserName.c_str());
 		rs << lpszSQLBuf;
 		rs.SQLExecDirect();
 		if (!rs.SQLFetch()) //不存在记录
@@ -906,13 +908,13 @@ void AuthThread::TomAccountLogout(RPacket& rpkt) {
 	int nSid = rpkt.ReadLong(); //未使用
 
 	CSQLRecordset rs(*m_pAuth);
-	sprintf(lpszSQLBuf, "select login_status from %s where id=%d", m_strAccountTableName.c_str(), nUserID);
+	sprintf_s(lpszSQLBuf, "select login_status from %s where id=%d", m_strAccountTableName.c_str(), nUserID);
 	rs << lpszSQLBuf;
 	rs.SQLExecDirect();
 
 	if (rs.SQLFetch()) {
 		if (rs.nSQLGetData(1) == 1) {
-			sprintf(lpszSQLBuf, "update %s set login_status=0, from_server='', enable_login_time=getdate(), last_login_tick=0 where id=%d", m_strAccountTableName.c_str(), nUserID);
+			sprintf_s(lpszSQLBuf, "update %s set login_status=0, from_server='', enable_login_time=getdate(), last_login_tick=0 where id=%d", m_strAccountTableName.c_str(), nUserID);
 			rs << lpszSQLBuf;
 			rs.SQLExecDirect();
 		}
@@ -972,7 +974,7 @@ void AuthThread::QueryAccount(RPacket rpkt) {
 	CSQLRecordset rs(*m_pAuth);
 
 	// 组织SQL查询语句
-	sprintf(szSql, "select id, password, sid, login_status, login_group, ban, datediff(s, enable_login_time, getdate()) as protect_time from account_login where name='%s'",
+	sprintf_s(szSql, "select id, password, sid, login_status, login_group, ban, datediff(s, enable_login_time, getdate()) as protect_time from account_login where name='%s'",
 			m_AcctInfo.strName.c_str());
 	rs << szSql; //account_login表中name字段一定要做唯一约束
 
@@ -1103,7 +1105,7 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock) {
 	int nSid = GenSid(m_AcctInfo.strName.c_str());
 	if (m_AcctInfo.nStatus == ACCOUNT_OFFLINE) {
 		//登陆前状态是不在线(正常登陆)
-		sprintf(lpszSQL, "update account_login set login_status=%d, login_group='%s', enable_login_time=getdate(), last_login_time=getdate(), last_login_mac='%s', last_login_ip='%s' where id=%d",
+		sprintf_s(lpszSQL, "update account_login set login_status=%d, login_group='%s', enable_login_time=getdate(), last_login_time=getdate(), last_login_mac='%s', last_login_ip='%s' where id=%d",
 				ACCOUNT_ONLINE, pFromGroupServer->GetName(), m_AcctInfo.strMAC.c_str(), m_AcctInfo.strIP.c_str(), m_AcctInfo.nId);
 		if (m_pAuth->ExecuteSQL(lpszSQL)) {
 			SetRunLabel(18);
@@ -1123,7 +1125,7 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock) {
 		}
 	} else if (m_AcctInfo.nStatus == ACCOUNT_ONLINE) {
 		//登陆前状态是已在线(重复登陆)
-		sprintf(lpszSQL, "update account_login set login_status=%d, login_group='%s', last_login_time=getdate(), last_login_mac='%s', last_login_ip='%s' where id=%d",
+		sprintf_s(lpszSQL, "update account_login set login_status=%d, login_group='%s', last_login_time=getdate(), last_login_mac='%s', last_login_ip='%s' where id=%d",
 				ACCOUNT_SAVING, pFromGroupServer->GetName(), m_AcctInfo.strMAC.c_str(), m_AcctInfo.strIP.c_str(), m_AcctInfo.nId);
 		if (m_pAuth->ExecuteSQL(lpszSQL)) {
 #ifdef _RELOGIN_MODE_
@@ -1163,7 +1165,7 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock) {
 			SetRunLabel(22);
 			goto login_over;
 		} else {
-			sprintf(lpszSQL, "update account_login set login_status=%d, login_group='%s', enable_login_time=getdate(), last_login_time=getdate(), last_login_mac='%s', last_login_ip='%s' where id=%d",
+			sprintf_s(lpszSQL, "update account_login set login_status=%d, login_group='%s', enable_login_time=getdate(), last_login_time=getdate(), last_login_mac='%s', last_login_ip='%s' where id=%d",
 					ACCOUNT_ONLINE, pFromGroupServer->GetName(), m_AcctInfo.strMAC.c_str(), m_AcctInfo.strIP.c_str(), m_AcctInfo.nId);
 			if (m_pAuth->ExecuteSQL(lpszSQL)) {
 				SetRunLabel(23);
@@ -1453,7 +1455,7 @@ void AuthThread::AccountLogout(RPacket rpkt) {
 	char lpszSQL[2048] = {0};
 	int nID = rpkt.ReadLong();
 	//sprintf(lpszSQL, "update account_login set login_status=%d, login_group='', enable_login_time=getdate(), last_logout_time=getdate() where id=%d", ACCOUNT_OFFLINE, nID);
-	sprintf(lpszSQL, "update account_login set login_status=%d, login_group='', enable_login_time=getdate(), last_logout_time=getdate(), total_live_time=total_live_time+datediff(second, last_login_time, getdate()) where id=%d", ACCOUNT_OFFLINE, nID); //  增加在线时间 by jampe
+	sprintf_s(lpszSQL, "update account_login set login_status=%d, login_group='', enable_login_time=getdate(), last_logout_time=getdate(), total_live_time=total_live_time+datediff(second, last_login_time, getdate()) where id=%d", ACCOUNT_OFFLINE, nID); //  增加在线时间 by jampe
 	if (m_pAuth->ExecuteSQL(lpszSQL)) {
 		SetRunLabel(0);
 	}
@@ -1543,7 +1545,7 @@ long AuthThread::GenSid(char const* szName) {
 
 	// 产生信息源
 	char buf[256];
-	int buf_len = sprintf(buf, "%s%d", szName, GetTickCount());
+	int buf_len = sprintf_s(buf, "%s%d", szName, GetTickCount());
 	if (buf_len >= sizeof buf)
 		throw std::out_of_range("buffer overflow in GenSid()\n");
 
@@ -1592,7 +1594,7 @@ void AuthThread::ResetAccount() {
 		AuthThread::m_Sema.unlock();
 	}
 }
-void AuthThread::KickAccount(std::string& strGroup, int nId) {
+void AuthThread::KickAccount(string& strGroup, int nId) {
 	GroupServer2* pGs = g_As2->FindGroup(strGroup.c_str());
 	if (pGs != NULL) {
 		WPacket wpkt = pGs->GetWPacket();

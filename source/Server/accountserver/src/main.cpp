@@ -18,6 +18,8 @@
 
 #include "inifile.h"
 
+#include <cstdio>
+
 #define AUTHUPDATE_TIMER 1
 #define GROUPUPDATE_TIMER 2
 
@@ -92,7 +94,7 @@ LRESULT OnInitDialog(HWND hwnd) {
 		char buf[80] = {0};
 		for (char i = 0; i < AuthThreadPool::AT_MAXNUM; ++i) {
 			item.iItem = i;
-			sprintf(buf, "#%02d", i + 1);
+			sprintf_s(buf, "#%02d", i + 1);
 			item.pszText = (LPSTR)buf;
 			ListView_InsertItem(hAuthList, &item);
 		}
@@ -161,7 +163,7 @@ LRESULT OnInitDialog(HWND hwnd) {
 		char buf[80] = {0};
 		for (char i = 0; i < 2; ++i) {
 			item.iItem = i;
-			sprintf(buf, "#%02d", i + 1);
+			sprintf_s(buf, "#%02d", i + 1);
 			item.pszText = (LPSTR)buf;
 			ListView_InsertItem(hBillList, &item);
 			//ListView_SetItemText(hBillList, i, 1, (LPSTR)g_BillThread.GetServerIP(i));
@@ -208,24 +210,24 @@ LRESULT OnTimer(HWND hwnd, UINT idEvent) {
 			item.iItem = i;
 
 			item.iSubItem = 1;
-			sprintf(buf, "%02d", AuthThreadPool::RunLabel[i]);
+			sprintf_s(buf, "%02d", AuthThreadPool::RunLabel[i]);
 			item.pszText = (LPSTR)buf;
 			ListView_SetItem(hAuthList, &item);
 
 			item.iSubItem = 2;
-			sprintf(buf, "%04d/%04d", AuthThreadPool::RunLast[i], AuthThreadPool::RunConsume[i]);
+			sprintf_s(buf, "%04d/%04d", AuthThreadPool::RunLast[i], AuthThreadPool::RunConsume[i]);
 			item.pszText = (LPSTR)buf;
 			ListView_SetItem(hAuthList, &item);
 		}
 
 		HWND hQueueCap = GetDlgItem(hwnd, IDC_QUEUECAP);
-		//sprintf(buf, "队列包： %d", g_Auth.GetPkTotal());
-		sprintf(buf, RES_STRING(AS_MAIN_CPP_00024), g_Auth.GetPkTotal());
+		//sprintf_s(buf, "队列包： %d", g_Auth.GetPkTotal());
+		sprintf_s(buf, RES_STRING(AS_MAIN_CPP_00024), g_Auth.GetPkTotal());
 		SetWindowText(hQueueCap, (LPCTSTR)buf);
 
 		HWND hTaskCnt = GetDlgItem(hwnd, IDC_TASKCNT);
-		//sprintf(buf, "并发数： %d", proc->GetTaskCount());
-		sprintf(buf, RES_STRING(AS_MAIN_CPP_00025), proc->GetTaskCount());
+		//sprintf_s(buf, "并发数： %d", proc->GetTaskCount());
+		sprintf_s(buf, RES_STRING(AS_MAIN_CPP_00025), proc->GetTaskCount());
 		SetWindowText(hTaskCnt, (LPCTSTR)buf);
 	} else if (idEvent == GROUPUPDATE_TIMER) {
 		g_TomService.ReportMemberCounts(g_As2->GetMembersCount());
@@ -234,7 +236,8 @@ LRESULT OnTimer(HWND hwnd, UINT idEvent) {
 
 	return 0;
 }
-BOOL CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+
+INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	WORD wNotify = HIWORD(wParam);
 	WORD wID = LOWORD(wParam);
 
@@ -337,7 +340,7 @@ BOOL CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		/*
         printf("cBTI_Disconnected [WPARAM=%d, LPARAM=%d]\n", wParam, lParam);
         ++ g_nDisconn;
-        char buf[20]; sprintf(buf, "断开次数：%d", g_nDisconn);
+        char buf[20]; sprintf_s(buf, "断开次数：%d", g_nDisconn);
         SetWindowText(GetDlgItem(hwndDlg, IDC_DISCONNCNT), buf);*/
 		break;
 
@@ -484,7 +487,7 @@ int main(int argc, char* argv[]) {
 
 	g_MainDBHandle.ReleaseObject();
 
-	T_FINAL
+	T_FINAL;
 
 	return 0;
 }

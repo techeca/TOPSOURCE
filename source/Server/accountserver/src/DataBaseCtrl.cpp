@@ -10,6 +10,8 @@
 #include "AccountServer2.h"
 #include "NetCommand.h"
 #include "NetRetCode.h"
+#include <string>
+
 
 CDataBaseCtrl::CDataBaseCtrl(void) {
 	m_strServerIP = "";
@@ -32,13 +34,13 @@ bool CDataBaseCtrl::CreateObject() {
 	dbc::IniSection& is = inf["db"];
 	std::string strTmp = "";
 	try {
-		sprintf(buf, "dbserver");
+		sprintf_s(buf, "dbserver");
 		m_strServerIP = is[buf].c_str();
-		sprintf(buf, "db");
+		sprintf_s(buf, "db");
 		m_strServerDB = is[buf].c_str();
-		sprintf(buf, "userid");
+		sprintf_s(buf, "userid");
 		m_strUserID = is[buf].c_str();
-		sprintf(buf, "passwd");
+		sprintf_s(buf, "passwd");
 		strTmp = is[buf].c_str();
 	} catch (dbc::excp& e) {
 		cout << e.what() << endl;
@@ -80,7 +82,7 @@ bool CDataBaseCtrl::CreateObject() {
 
 bool CDataBaseCtrl::InsertUser(std::string username, std::string password, std::string email) {
 	char buf[1024];
-	sprintf(buf, "insert into account_login(name,password,sid,total_live_time,email)  values('%s','%s',0,0,'%s');",
+	sprintf_s(buf, "insert into account_login(name,password,sid,total_live_time,email)  values('%s','%s',0,0,'%s');",
 			username.c_str(), password.c_str(), email.c_str());
 	string strSQL = buf;
 	if (!IsConnect())
@@ -103,7 +105,7 @@ bool CDataBaseCtrl::InsertUser(std::string username, std::string password, std::
 
 bool CDataBaseCtrl::UpdatePassword(string user, string pass) {
 	char buf[1024];
-	sprintf(buf, "update account_login set password= '%s' where name = '%s'", pass.c_str(), user.c_str());
+	sprintf_s(buf, "update account_login set password= '%s' where name = '%s'", pass.c_str(), user.c_str());
 	string strSQL = buf;
 	if (!IsConnect())
 		Connect();
@@ -145,7 +147,7 @@ bool CDataBaseCtrl::Connect() {
 
 	//连接数据库
 	char buf[512] = {0};
-	sprintf(buf, "DRIVER={SQL Server};SERVER=%s;UID=%s;PWD=%s;DATABASE=%s",
+	sprintf_s(buf, "DRIVER={SQL Server};SERVER=%s;UID=%s;PWD=%s;DATABASE=%s",
 			m_strServerIP.c_str(), m_strUserID.c_str(), m_strUserPwd.c_str(), m_strServerDB.c_str());
 
 	if (!m_pDataBase->Open(buf)) {
@@ -189,7 +191,7 @@ bool CDataBaseCtrl::UserLogin(int nUserID, string strUserName, string strIP) {
 	}
 
 	char buf[1024];
-	sprintf(buf, "insert into user_log (user_id, user_name, login_time, login_ip) values (%d, '%s', getdate(), '%s')",
+	sprintf_s(buf, "insert into user_log (user_id, user_name, login_time, login_ip) values (%d, '%s', getdate(), '%s')",
 			nUserID, strUserName.c_str(), strIP.c_str());
 	string strSQL = buf;
 	if (!IsConnect())
@@ -213,7 +215,7 @@ bool CDataBaseCtrl::UserLogin(int nUserID, string strUserName, string strIP) {
 
 bool CDataBaseCtrl::UserLogout(int nUserID) {
 	char buf[1024];
-	sprintf(buf, "update user_log set logout_time=getdate() where log_id=(select max(log_id) from user_log where user_id=%d)", nUserID);
+	sprintf_s(buf, "update user_log set logout_time=getdate() where log_id=(select max(log_id) from user_log where user_id=%d)", nUserID);
 	string strSQL = buf;
 	if (!IsConnect())
 		Connect();
@@ -242,7 +244,7 @@ bool CDataBaseCtrl::KickUser(std::string strUserName) {
 	//LG("AccountServer", "CDataBaseCtrl::KickUser: UserName=[%s] \n", strUserName.c_str());
 
 	char buf[1024];
-	sprintf(buf, "select id, login_group, last_logout_time from account_login where name='%s'", strUserName.c_str());
+	sprintf_s(buf, "select id, login_group, last_logout_time from account_login where name='%s'", strUserName.c_str());
 	string strSQL = buf;
 	if (!IsConnect())
 		Connect();
@@ -301,7 +303,7 @@ void CDataBaseCtrl::SetExpScale(std::string strUserName, long time) {
 	}
 
 	char strSQL[1024];
-	sprintf(strSQL, "select id, login_group, last_logout_time from account_login where name='%s'", strUserName.c_str());
+	sprintf_s(strSQL, "select id, login_group, last_logout_time from account_login where name='%s'", strUserName.c_str());
 	if (!IsConnect())
 		Connect();
 
@@ -388,7 +390,7 @@ bool CDataBaseCtrl::UserLogoutMap(std::string strUserName) {
 		char buf[1024];
 		__int64 i64Span = ctSpan.GetTotalSeconds();
 		if (g_TomService.IsEnable()) {
-			sprintf(buf, "update account_login set total_live_time=total_live_time+%I64d where name='%s'", i64Span, strUserName.c_str());
+			sprintf_s(buf, "update account_login set total_live_time=total_live_time+%I64d where name='%s'", i64Span, strUserName.c_str());
 			string strSQL = buf;
 			if (!IsConnect())
 				Connect();
